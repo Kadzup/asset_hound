@@ -1,6 +1,7 @@
 import 'package:args/command_runner.dart';
 import 'package:mason_logger/mason_logger.dart';
 
+import '../cleaners/asset_cleaner.dart';
 import '../exporters/html_exporter.dart';
 import '../exporters/json_exporter.dart';
 
@@ -26,6 +27,12 @@ class ScanCommand extends Command {
         'auto-fix',
         abbr: 'f',
         help: 'Automatically delete the unused assets found during the scan.',
+        negatable: false,
+      )
+      ..addFlag(
+        'yes',
+        abbr: 'y',
+        help: 'Skip the confirmation prompt when using --auto-fix.',
         negatable: false,
       )
       ..addFlag(
@@ -75,6 +82,8 @@ class ScanCommand extends Command {
     final autoFix = argResults?['auto-fix'] as bool? ?? false;
     final scopes = argResults?['scope'] as List<String>? ?? [];
     final protectedPackages = argResults?['protect'] as List<String>? ?? [];
+    final isDryRun = argResults?['dry-run'] as bool? ?? false;
+    final skipConfirm = argResults?['yes'] as bool? ?? false;
 
     _logger.info('\n🐶 Asset Hound activated!\n');
 
@@ -93,9 +102,10 @@ class ScanCommand extends Command {
       await CodeScanner(_logger).run(context);
     }
 
-    if (autoFix) {
-      _logger.alert('Auto-fixing ${context.unusedAssets.length} files...');
-      // TODO: Delete files logic
+    if (autoFix || isDryRun) {
+      AssetCleaner(
+        _logger,
+      ).clean(context: context, isDryRun: isDryRun, skipConfirm: skipConfirm);
     }
 
     if (reportFormat == 'html') {

@@ -1,6 +1,6 @@
 name: asset_hound
 description: A CLI tool to sniff out and remove unused assets in Flutter projects.
-version: 1.0.0
+version: 1.0.1
 repository: https://github.com/Kadzup/asset_hound
 
 environment:

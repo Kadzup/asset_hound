@@ -44,13 +44,20 @@ Run the `scan` command to analyze your project. You can customize the scan using
 | :------------------ | :----------: | :--------------------------------------------------------------------------- |
 | `--report=<format>` |     `-r`     | Generates a savings report. Supported formats: `html`, `json`.               |
 | `--auto-fix`        |     `-f`     | **(Caution)** Automatically deletes the unused assets found during the scan. |
+| `--yes`             |     `-y`     | Skips the confirmation prompt when using `--auto-fix`. Great for CI/CD.      |
 | `--dry-run`         |     `-d`     | Simulates an auto-fix deletion without actually harming any files.           |
+| `--scope=<list>`    |     `-s`     | Comma-separated list of scopes to scan (`pubspec`, `assets`, `code`).        |
 | `--verbose`         |     `-v`     | Prints detailed logging information. Great for debugging.                    |
 | `--protect=<list>`  |     `-p`     | Comma-separated list of native config packages to protect from deletion.     |
 
-**Example: Generate a beautiful HTML dashboard of your unused assets:**
+**Example 1: Generate a beautiful HTML dashboard of your unused assets:**
 ```bash
 dart run asset_hound scan --report=html
+```
+
+**Example 2: Run an automated cleanup in a CI/CD pipeline (no prompts):**
+```bash
+dart run asset_hound scan --auto-fix --yes
 ```
 
 ---
