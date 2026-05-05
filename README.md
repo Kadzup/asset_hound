@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/your_username/asset_hound/main/doc/logo.png" alt="Asset Hound Logo" width="200">
+  <img src="https://raw.githubusercontent.com/Kadzup/asset_hound/refs/heads/main/doc/logo.png" alt="Asset Hound Logo" width="200">
 
   <h1>Asset Hound 🐶</h1>
   <p><strong>A lightning-fast CLI tool to sniff out and remove unused assets in your Flutter projects.</strong></p>
