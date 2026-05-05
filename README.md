@@ -1,39 +1,86 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+<div align="center">
+  <img src="https://raw.githubusercontent.com/your_username/asset_hound/main/doc/logo.png" alt="Asset Hound Logo" width="200">
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages). 
+  <h1>Asset Hound 🐶</h1>
+  <p><strong>A lightning-fast CLI tool to sniff out and remove unused assets in your Flutter projects.</strong></p>
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages). 
--->
+  <p>
+    <a href="https://pub.dev/packages/asset_hound"><img src="https://img.shields.io/pub/v/asset_hound.svg" alt="Pub Version"></a>
+    <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
+  </p>
+</div>
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+---
 
-## Features
+## 🧐 The Problem
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+As Flutter apps grow, developers often leave behind unused images, fonts, and SVGs. These "ghost assets" bloat your final APK/IPA size, hurting your app's download conversion rate. 
 
-## Getting started
+**Asset Hound** automatically scans your `pubspec.yaml`, searches your file system, and analyzes your Dart code to find exactly which assets are wasting space—allowing you to safely delete them and generate beautiful savings reports.
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+---
 
-## Usage
+## 🚀 Quick Start
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+Asset Hound is designed to be run globally from your terminal. Activate it once:
 
-```dart
-const like = 'sample';
+```bash
+dart pub global activate asset_hound
 ```
 
-## Additional information
+Navigate to your Flutter project and let the hound off the leash:
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+```bash
+dart run asset_hound scan
+```
+
+---
+
+## 🛠️ Usage & Commands
+
+Run the `scan` command to analyze your project. You can customize the scan using various flags:
+
+| Flag                | Abbreviation | Description                                                                  |
+| :------------------ | :----------: | :--------------------------------------------------------------------------- |
+| `--report=<format>` |     `-r`     | Generates a savings report. Supported formats: `html`, `json`.               |
+| `--auto-fix`        |     `-f`     | **(Caution)** Automatically deletes the unused assets found during the scan. |
+| `--dry-run`         |     `-d`     | Simulates an auto-fix deletion without actually harming any files.           |
+| `--verbose`         |     `-v`     | Prints detailed logging information. Great for debugging.                    |
+| `--protect=<list>`  |     `-p`     | Comma-separated list of native config packages to protect from deletion.     |
+
+**Example: Generate a beautiful HTML dashboard of your unused assets:**
+```bash
+dart run asset_hound scan --report=html
+```
+
+---
+
+## ⚙️ Configuration (Optional)
+
+Asset Hound is smart enough to handle dynamically generated paths (like `assets/icons/icon_$index.png`) using fuzzy directory matching. However, if you need to explicitly ignore certain directories, you can configure it directly in your `pubspec.yaml`.
+
+Add an `asset_hound` block to the bottom of your file:
+
+```yaml
+# pubspec.yaml
+
+asset_hound:
+  ignore:
+    # Ignore all videos
+    - assets/videos/**
+    # Ignore a specific file
+    - assets/images/do_not_delete.png
+```
+
+### Native Package Protection
+By default, Asset Hound automatically protects native assets configured by popular packages (like `flutter_native_splash` and `flutter_launcher_icons`). If you use custom packages, you can protect them via the CLI:
+
+```bash
+dart run asset_hound scan --protect=my_custom_splash,other_icons
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/Kadzup/asset_hound/issues).
